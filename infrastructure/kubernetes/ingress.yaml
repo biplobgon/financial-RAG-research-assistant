@@ -1,0 +1,31 @@
+# ==============================================================================
+# Kubernetes Ingress — Financial RAG API
+# ==============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: financial-rag-ingress
+  namespace: financial-rag
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - api.financial-rag.example.com
+      secretName: financial-rag-tls
+  rules:
+    - host: api.financial-rag.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: financial-rag-api-service
+                port:
+                  number: 80

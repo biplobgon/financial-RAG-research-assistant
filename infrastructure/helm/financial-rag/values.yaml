@@ -1,0 +1,58 @@
+# Helm values for Financial RAG Research Assistant
+
+replicaCount: 3
+
+image:
+  repository: financial-rag-api
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: api.financial-rag.example.com
+  tls: true
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+env:
+  ENVIRONMENT: production
+  LOG_LEVEL: INFO
+  CHROMA_HOST: chromadb-service
+  MLFLOW_TRACKING_URI: http://mlflow-service:5000
+
+chromadb:
+  enabled: true
+  replicaCount: 1
+  persistence:
+    size: 50Gi
+
+redis:
+  enabled: true
+  replicaCount: 1
+  persistence:
+    size: 10Gi
+
+monitoring:
+  prometheus:
+    enabled: true
+    scrape: true
+  grafana:
+    enabled: true

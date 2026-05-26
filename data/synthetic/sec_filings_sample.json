@@ -1,0 +1,69 @@
+[
+  {
+    "doc_id": "synthetic_aapl_10k_2023",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "filing_type": "10-K",
+    "fiscal_year": "2023",
+    "filing_date": "2023-11-03",
+    "title": "Apple Inc. Annual Report (10-K) FY2023",
+    "content": "Apple Inc. designs, manufactures and markets smartphones, personal computers, tablets, wearables and accessories. Total net sales for fiscal year 2023 were $383.3 billion, down 3% compared to $394.3 billion in fiscal year 2022. Net income was $97.0 billion. Services revenue reached an all-time record of $85.2 billion, growing 9% year-over-year. iPhone revenue was $200.6 billion. The Company generated $114.1 billion in operating cash flow.",
+    "key_financials": {
+      "revenue": 383300000000,
+      "net_income": 97000000000,
+      "eps_diluted": 6.13,
+      "operating_cash_flow": 114100000000,
+      "services_revenue": 85200000000
+    },
+    "risk_factors": [
+      "Intense competition in smartphone market",
+      "Dependence on component suppliers",
+      "Regulatory scrutiny in App Store business",
+      "Macroeconomic headwinds affecting consumer spending"
+    ]
+  },
+  {
+    "doc_id": "synthetic_msft_10k_2023",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "filing_type": "10-K",
+    "fiscal_year": "2023",
+    "filing_date": "2023-07-27",
+    "title": "Microsoft Corporation Annual Report (10-K) FY2023",
+    "content": "Microsoft Corporation enables digital transformation for the era of an intelligent cloud and an intelligent edge. Revenue for fiscal year 2023 was $211.9 billion, up 7% from $198.3 billion in fiscal year 2022. Net income was $72.4 billion. Cloud revenue (Intelligent Cloud segment) grew 19% to $87.9 billion. Azure and other cloud services grew 27%. Microsoft 365 commercial revenue grew 13%.",
+    "key_financials": {
+      "revenue": 211900000000,
+      "net_income": 72400000000,
+      "cloud_revenue": 87900000000,
+      "azure_growth_pct": 27
+    },
+    "risk_factors": [
+      "AI integration execution risk",
+      "Regulatory scrutiny of Activision acquisition",
+      "Cybersecurity threats",
+      "Competition from Google Cloud and AWS"
+    ]
+  },
+  {
+    "doc_id": "synthetic_googl_10k_2023",
+    "ticker": "GOOGL",
+    "company_name": "Alphabet Inc.",
+    "filing_type": "10-K",
+    "fiscal_year": "2023",
+    "filing_date": "2024-02-02",
+    "title": "Alphabet Inc. Annual Report (10-K) FY2023",
+    "content": "Alphabet Inc. is a collection of businesses — the largest of which is Google. Revenue for 2023 was $307.4 billion, an increase of 9% compared to 2022. Net income was $73.8 billion. Google Cloud revenue was $33.1 billion, up 26%. Google Search revenue was $175.0 billion. YouTube advertising revenue was $31.5 billion.",
+    "key_financials": {
+      "revenue": 307400000000,
+      "net_income": 73800000000,
+      "google_cloud_revenue": 33100000000,
+      "search_revenue": 175000000000
+    },
+    "risk_factors": [
+      "Regulatory antitrust investigations",
+      "Competition in search from AI-powered alternatives",
+      "Advertiser concentration risk",
+      "Privacy regulation changes"
+    ]
+  }
+]

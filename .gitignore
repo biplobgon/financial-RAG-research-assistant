@@ -1,0 +1,121 @@
+# ==============================================================================
+# Financial RAG Research Assistant — .gitignore
+# ==============================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.spec
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+nosetests.xml
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyright/
+
+# Linting
+.ruff_cache/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment Variables (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Data files (large raw data should not be committed)
+data/raw/**/*.pdf
+data/raw/**/*.txt
+data/processed/**
+!data/raw/**/.gitkeep
+!data/processed/.gitkeep
+
+# Model artifacts
+*.pkl
+*.joblib
+*.bin
+*.safetensors
+models/
+model_cache/
+
+# ChromaDB local data
+chroma_data/
+chroma.sqlite3
+
+# MLflow artifacts
+mlruns/
+mlartifacts/
+
+# Logs
+logs/
+*.log
+
+# Docker
+.docker/
+
+# Terraform state (never commit)
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+
+# Node (for any frontend assets)
+node_modules/
+
+# Temp files
+tmp/
+temp/
+.tmp/
+
+# OS files
+.DS_Store
+desktop.ini
+
+# Security scan results
+trivy-results.sarif

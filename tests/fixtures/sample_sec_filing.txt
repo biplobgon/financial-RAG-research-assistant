@@ -1,0 +1,41 @@
+UNITED STATES SECURITIES AND EXCHANGE COMMISSION
+Washington, D.C. 20549
+
+FORM 10-K — ANNUAL REPORT
+
+For the fiscal year ended September 30, 2023
+
+APPLE INC.
+CIK: 0000320193
+Ticker: AAPL
+
+ITEM 1. BUSINESS
+
+Apple Inc. designs, manufactures and markets smartphones, personal computers, tablets,
+wearables and accessories, and sells a variety of related services. The Company's products
+and services include iPhone, Mac, iPad, AirPods, Apple TV, Apple Watch, Beats products,
+HomePod, iPod touch and accessories. The Company operates various platforms including the
+App Store, Apple Music, Apple TV+, iCloud, Apple Pay, and AppleCare.
+
+ITEM 1A. RISK FACTORS
+
+A significant portion of the Company's net sales comes from a single customer.
+The Company relies on access to third-party intellectual property, which may not be
+available on reasonable terms or at all. Global and regional economic conditions could
+materially adversely affect the Company.
+
+ITEM 7. MANAGEMENT'S DISCUSSION AND ANALYSIS
+
+FISCAL YEAR 2023 HIGHLIGHTS:
+- Total net sales: $383.3 billion (2022: $394.3 billion, -3% YoY)
+- Net income: $97.0 billion (2022: $99.8 billion)
+- Diluted EPS: $6.13 (2022: $6.11)
+- Operating cash flow: $114.1 billion
+- Free cash flow: $99.6 billion
+
+SEGMENT PERFORMANCE:
+- iPhone: $200.6B (-2% YoY)
+- Services: $85.2B (+9% YoY — all-time record)
+- Mac: $29.4B (-27% YoY)
+- iPad: $28.3B (-3% YoY)
+- Wearables, Home & Accessories: $39.8B (-3% YoY)

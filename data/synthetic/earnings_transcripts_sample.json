@@ -1,0 +1,36 @@
+[
+  {
+    "transcript_id": "synthetic_aapl_q4_2023",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "call_date": "2023-11-02",
+    "fiscal_quarter": "Q4",
+    "fiscal_year": "2023",
+    "participants": ["Tim Cook (CEO)", "Luca Maestri (CFO)"],
+    "prepared_remarks": "Tim Cook: Good afternoon, everyone. We're pleased to report our fourth fiscal quarter results, capping a challenging but resilient year. Revenue for Q4 was $89.5 billion, down 1% year-over-year. Services achieved a new all-time revenue record of $22.3 billion, up 16%. We returned over $25 billion to shareholders during the quarter through dividends and buybacks.",
+    "forward_guidance": "For Q1 FY2024, we expect revenue similar to Q1 FY2023. We expect Services to continue growing at double-digit rates. We expect gross margin between 45% and 46%.",
+    "key_signals": [
+      "Services all-time revenue record",
+      "16% Services growth acceleration",
+      "iPhone demand resilient in China",
+      "Gross margin expansion to 45.2%"
+    ]
+  },
+  {
+    "transcript_id": "synthetic_msft_q1_2024",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "call_date": "2023-10-25",
+    "fiscal_quarter": "Q1",
+    "fiscal_year": "2024",
+    "participants": ["Satya Nadella (CEO)", "Amy Hood (CFO)"],
+    "prepared_remarks": "Satya Nadella: Our strong start to fiscal 2024 reflects continued demand for AI solutions. Revenue was $56.5 billion, up 13% year-over-year. Azure grew 29%, accelerating from prior quarter. Copilot integrations are showing strong early adoption across enterprise customers.",
+    "forward_guidance": "For Q2 FY2024, we expect revenue of $60.4-61.4 billion. Intelligent Cloud revenue expected at $25.1-25.4 billion. Azure growth expected to accelerate by 1-2 points.",
+    "key_signals": [
+      "Azure acceleration to 29% growth",
+      "Copilot enterprise adoption early traction",
+      "AI revenue exceeding $10B annualized",
+      "Cloud margins expanding"
+    ]
+  }
+]

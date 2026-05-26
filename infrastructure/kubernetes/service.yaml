@@ -1,0 +1,33 @@
+# ==============================================================================
+# Kubernetes Service — Financial RAG API
+# ==============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: financial-rag-api-service
+  namespace: financial-rag
+  labels:
+    app: financial-rag-api
+spec:
+  selector:
+    app: financial-rag-api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: financial-rag
+  labels:
+    name: financial-rag
+    team: ai-engineering
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: financial-rag-sa
+  namespace: financial-rag

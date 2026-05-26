@@ -1,0 +1,96 @@
+# ==============================================================================
+# Kubernetes Deployment — Financial RAG Research Assistant
+# ==============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: financial-rag-api
+  namespace: financial-rag
+  labels:
+    app: financial-rag-api
+    version: "1.0.0"
+    component: api
+    tier: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: financial-rag-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: financial-rag-api
+        version: "1.0.0"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: financial-rag-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: api
+          image: financial-rag-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: CHROMA_HOST
+              value: "chromadb-service"
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: financial-rag-secrets
+                  key: redis-url
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: financial-rag-secrets
+                  key: openai-api-key
+            - name: MLFLOW_TRACKING_URI
+              value: "http://mlflow-service:5000"
+            - name: OTEL_ENDPOINT
+              value: "http://otel-collector:4317"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: data-volume
+              mountPath: /app/data
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: financial-rag-data-pvc
+      terminationGracePeriodSeconds: 60

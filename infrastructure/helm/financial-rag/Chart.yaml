@@ -1,0 +1,16 @@
+apiVersion: v2
+name: financial-rag
+description: Financial RAG Research Assistant — Enterprise AI Platform
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - financial
+  - ai
+  - rag
+  - llm
+  - enterprise
+maintainers:
+  - name: AI Engineering Team
+    email: ai-engineering@example.com
+dependencies: []

@@ -1,0 +1,186 @@
+# ==============================================================================
+# Financial RAG Research Assistant — Full Stack Docker Compose
+# Services: API, ChromaDB, Redis, Prometheus, Grafana, MLflow, Jaeger
+# ==============================================================================
+
+version: '3.9'
+
+networks:
+  financial-rag-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  chroma_data:
+  redis_data:
+  mlflow_data:
+  prometheus_data:
+  grafana_data:
+
+services:
+
+  # ─────────────────────────────────────────────────
+  # Financial RAG API
+  # ─────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: financial-rag-api
+    image: financial-rag-api:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - LOG_LEVEL=INFO
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8001
+      - REDIS_URL=redis://redis:6379/0
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - OTEL_ENDPOINT=http://jaeger:4317
+      - OTEL_SERVICE_NAME=financial-rag-api
+    volumes:
+      - ./data:/app/data
+      - ./app:/app/app:ro
+    depends_on:
+      chromadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ─────────────────────────────────────────────────
+  # ChromaDB Vector Database
+  # ─────────────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:0.5.0
+    container_name: financial-rag-chromadb
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - CHROMA_SERVER_AUTHN_PROVIDER=chromadb.auth.noop.NoopClientAuthProvider
+      - PERSIST_DIRECTORY=/chroma/chroma
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ─────────────────────────────────────────────────
+  # Redis Cache
+  # ─────────────────────────────────────────────────
+  redis:
+    image: redis:7.2-alpine
+    container_name: financial-rag-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────────────
+  # MLflow Experiment Tracking
+  # ─────────────────────────────────────────────────
+  mlflow:
+    image: python:3.11-slim
+    container_name: financial-rag-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      bash -c "pip install mlflow -q && mlflow server 
+      --host 0.0.0.0 
+      --port 5000 
+      --backend-store-uri /mlflow/store 
+      --default-artifact-root /mlflow/artifacts"
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────────
+  # Prometheus Metrics
+  # ─────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: financial-rag-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────────
+  # Grafana Dashboards
+  # ─────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: financial-rag-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infrastructure/monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=financial_rag_admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+    depends_on:
+      - prometheus
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────────
+  # Jaeger Distributed Tracing
+  # ─────────────────────────────────────────────────
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: financial-rag-jaeger
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "4317:4317"    # OTLP gRPC
+      - "4318:4318"    # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - financial-rag-net
+    restart: unless-stopped
